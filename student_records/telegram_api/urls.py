@@ -19,11 +19,8 @@ def post():
     subscription_type = data.get('subscription_type')
     days = data.get('days')
 
-    # Создаем объект студента
-    student = add_student(student_name)
-
-    # Создаем объект подписки
-    subscription = add_subscription(student_id=student.id, ads=subscription_type)
+    student = add_student(student_name) # Создаем объект студента
+    subscription = add_subscription(student_id=student.id, ads=subscription_type) # Создаем объект подписки
 
     # Создаем объекты посещений для каждой даты
     for date_str in days:
@@ -31,7 +28,6 @@ def post():
         day = Day(student_id=student.id, lesson_date=date, subscription_id=subscription.id)
         db.session.add(day)
 
-    # Создаем объект платежа
-    add_payment(student_id=student.id)
+    add_payment(student_id=student.id) # Создаем объект платежа
 
     return jsonify({"message": "Студент успешно создан"}), 201
