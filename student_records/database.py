@@ -5,7 +5,7 @@ db = SQLAlchemy()
 
 BASE_DIR = dirname(dirname(abspath(__file__)))
 
-DB_URL = "sqlite:///" + BASE_DIR + "/db.feelz_students"
+DB_URL = "sqlite:///" + BASE_DIR + "/feelz_students.sqlite3"
 
 
 class Student(db.Model):
@@ -18,7 +18,7 @@ class Student(db.Model):
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
-    type = db.Column(db.String(20), nullable=False)  # Пн•Ср•Пт, Вт•Чт•Сб, Каждый день
+    ads = db.Column(db.String(20), nullable=False)  # Пн•Ср•Пт, Вт•Чт•Сб, Каждый день
     lessons_remaining = db.Column(db.Integer, default=0)
     days = db.relationship('Day', backref='subscription', lazy=True)
 
