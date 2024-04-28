@@ -32,6 +32,6 @@ def post():
         db.session.add(day)
 
     # Создаем объект платежа
-    payment = add_payment(student_id=student.id)
+    add_payment(student_id=student.id)
 
     return jsonify({"message": "Студент успешно создан"}), 201
