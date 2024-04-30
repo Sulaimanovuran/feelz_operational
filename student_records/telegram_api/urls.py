@@ -24,17 +24,17 @@ def post():
     subscription_type = data.get('subscription_type')
     days = data.get('days')
 
-    # Создание данных об ученике его абонементе, оплате и дат занятий
+    # Создание данных об ученике, его абонементе, оплате и дат занятий
     try:
         student_data = AddStudentDB(student_name=student_name, subscription_type=subscription_type, days=days)
     except Exception as ex:
-        message=f"Ошибка добавления данных в БД:\n{ex}" 
+        return jsonify({"message": f"Ошибка добавления данных в БД:\n{ex}"}), 500
 
+    # Запись данных об ученике, его абонементе, оплате и дат занятий в Google Таблицы
     gs = GoogleSheets(student_data=student_data)
-    gs_record = gs.write_student()
-    message=gs_record
+    message = gs.write_student_with_payment()
 
-    if "SUCCESS" in gs_record:
+    if "SUCCESS" in message:
         return jsonify({"message": create_success_message_for_tg(student_data)}), 201
     else:
         return jsonify({"message": message}), 500
